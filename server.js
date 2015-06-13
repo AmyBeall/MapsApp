@@ -7,6 +7,7 @@ var mongoose = require('mongoose'); //for working w/ our database
 var port	= process.env.PORT || 8080; //set the port for our app
 var jwt = require('jsonwebtoken');
 var superSecret = 'amysfirstwebtoken';
+var path = require('path');
 
 // APP CONFIGURATION ---------------------
 // use body parser so we can grab information from POST requests
@@ -30,7 +31,7 @@ app.use(morgan('dev')); 28
 
 // basic route for the home page
 app.get('/', function(req, res) {
-	res.send('Welcome to the home page!');
+	res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 // get an instance of the express router
