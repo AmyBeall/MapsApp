@@ -158,7 +158,8 @@ angular.module('routeCtrl', [])
 			   	directionsService.route(request, function(response, status) {
 			     	if (status == google.maps.DirectionsStatus.OK) {
 			      		directionsDisplay.setDirections(response);
-			      		$scope.route = response;
+			      		console.log(response);
+			      		// $scope.directions = response;
 			 		}
 			 	})
 			},1000); 
@@ -175,7 +176,7 @@ angular.module('routeCtrl', [])
 			   		console.log(status);
 			     	if (status == google.maps.DirectionsStatus.OK) {
 			      		directionsDisplay.setDirections(response);
-			      		$scope.route += response;
+			      		// $scope.directions += response;
 			 		}
 			 	})
 			 	
@@ -190,10 +191,12 @@ angular.module('routeCtrl', [])
 			      		 directionsDisplay1.setDirections(response);
 			      		 directionsDisplay1.setMap(map);
   						 directionsDisplay1.setPanel(document.getElementById("directionsPanel"));
-			      		$scope.route += response;
+			      		// $scope.directions += response;
 			 		}
 			 	})
 		 	},1000); 
 		}	
-	}		
+		// console.log($scope.directions);	
+	}
+
 });

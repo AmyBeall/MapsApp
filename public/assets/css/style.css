@@ -30,12 +30,15 @@ button {
   width: 30%;
 }
 .main_getRoute {
-  margin-left: auto;
+  margin-left: 15px;
   margin-right: auto;
-  margin-top: 85px;
+  /*margin-top: 65px;*/
   width: 100%;
   vertical-align: top;
   text-align: center;
+}
+.main_getRoute h2{
+	padding-top: 20px;
 }
 .main_getRoute > div, button {
   margin-left: auto;
@@ -58,7 +61,14 @@ button {
   vertical-align: top;
   margin-top: 0px;
 }
-
+#directionsPanel{
+  display: inline-block;
+  vertical-align: top;
+  right: 0;
+  position: absolute;
+  width: 30%;
+  background-color: white;
+}
 /* HEADER
 ===================== */
 header .navbar {
