@@ -1,0 +1,39 @@
+<div class="main_getRoute">
+
+	<h2>Directions to ClickTime</h2>
+	<form>
+		<h4 for="start" ng-hide="started">Where are you leaving from?</h4>
+		<input id="start" ng-model = "info.start" type="text" ng-hide="started" ng-blur="started = !started">
+		<p ng-click="started = !started" ng-show="started">Starting Address: <span ng-bind="info.start"></span></p>
+		<h4 for="mode" ng-hide="moded"> Type of transit </h4>
+		<select id="mode" ng-model = "info.mode" ng-hide="moded" ng-blur="moded = !moded" ng-change='route.calcRoute(info.mode)'>
+			<option ng-value="WALKING" ng-selected="info.mode">WALKING</option>
+			<option ng-value="BICYCLING">BICYCLING</option>
+			<option ng-value="TRANSIT">TRANSIT</option>
+		</select>
+		<p ng-click="moded = !moded" ng-show="moded">Mode of Transportation: <span ng-bind="info.mode"></span></p>
+		<h4 ng-hide="ways">Do you need to stop anywhere?</h4>
+		<label ng-hide="ways" for="wayPointOne">First Stop:</label>
+		<input ng-hide="ways" id="wayPointOne" class="controls" type="text" ng-model="info.way1" ng-blur='route.wayPts(info.way1)'>
+		<p ng-show="ways">Stop One: <span ng-bind="info.way1"></span></p>
+		<label ng-hide="ways" for="wayPointTwo">Second Stop:</label>
+		<input ng-hide="ways" type="text" id="wayPointTwo" ng-model = "info.way2" ng-blur='route.wayPts(info.way2)'>
+		<p ng-show="ways">Stop Two: <span ng-bind="info.way2"></p>
+		<label ng-hide="ways" for="wayPointThree">Third Stop:</label>
+		<input ng-hide="ways" type="text" id="wayPointThree" ng-model = "info.way3" ng-blur='route.wayPts(info.way3)'>
+		<p ng-show="ways">Stop Three: <span ng-bind="info.way3"></p>
+		<button ng-click="route.wholeRoute()" ng-mouseup="ways = !ways" ng-blur="ways = !ways">Get Directions!</button>
+	</form>
+
+	<div ng-if="">
+		<p>Starting Address: <span ng-bind="info.start"></span></p>
+		<p>Stop One: <span ng-bind="info.way1"></span></p>
+		<p>Stop Two: <span ng-bind="info.way2"></p>
+		<p>Stop Three: <span ng-bind="info.way3"></p>
+		<p>Mode of Transportation: <span ng-bind="info.mode"></span></p>
+	</div>
+	<div ng-repeat="place in places">
+		<p>{{place.name}}</p>
+	</div>
+</div>
+	<!-- ng-blur='route.codeAddress(info.start)' -->
