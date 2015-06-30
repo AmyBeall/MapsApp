@@ -1,4 +1,4 @@
-angular.module('mapCtrl', ['mapService'])
+angular.module('mapCtrl', [])
 
 .controller('mapController', function($scope) {
 
