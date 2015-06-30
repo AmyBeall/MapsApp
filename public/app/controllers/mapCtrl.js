@@ -19,6 +19,7 @@ angular.module('mapCtrl', [])
             position: google.maps.ControlPosition.LEFT_CENTER
         }
       };
+      document.getElementById('map-canvas').className="map1";
       var map = new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
     }

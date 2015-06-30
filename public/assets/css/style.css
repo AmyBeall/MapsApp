@@ -1,3 +1,7 @@
+main{
+  height: 100vh;
+  overflow: hidden;
+}
 h4, label, p {
   display: block;
   margin-top: 25px;
@@ -28,17 +32,29 @@ button {
   display: inline-block;
   text-align: center;
   width: 30%;
+  overflow: scroll;
+}
+.main_getInfo{
+  position:absolute;
+  background: rgba(255,255,255, 0.6);
+  height: 50%;
+  width: 50%;
+  margin-left: 25%;
+  top: 100px;
+  padding: 30px;
 }
 .main_getRoute {
   margin-left: 15px;
   margin-right: auto;
-  /*margin-top: 65px;*/
   width: 100%;
   vertical-align: top;
   text-align: center;
+  overflow: scroll;
+  height: 100vh;
 }
 .main_getRoute h2{
-	padding-top: 20px;
+	padding-top: 50px;
+  font-size: 42px;
 }
 .main_getRoute > div, button {
   margin-left: auto;
@@ -54,6 +70,7 @@ button {
 .view{
 	display: inline-block;
 	vertical-align: top;
+  overflow: scroll;
 }
 #map-canvas {
   height: 100vh;
@@ -61,54 +78,40 @@ button {
   vertical-align: top;
   margin-top: 0px;
 }
-#directionsPanel{
+.place{
+  box-shadow: rgb(136, 136, 136) 2px 2px 5px;
+  padding: 10px;
+}
+.directions{
+  overflow: scroll;
+  padding-bottom: 150px;
   display: inline-block;
   vertical-align: top;
-  right: 0;
-  position: absolute;
-  width: 30%;
-  background-color: white;
+  width: 100%
+}
+#main_button {
+  color: white;
 }
 /* HEADER
 ===================== */
 header .navbar {
 	border-radius: 0;
 	background-color: rgb(211, 211, 211);
-  	margin-bottom: 0px;
-  	/*width: 100%;*/
+  margin-bottom: 0px;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 100%
 }
-header{
-	/*width: 100%;*/
-}
-header .container{
-	/*width: 100%;*/
-}
-
-/* ANIMATIONS 
-====================== */ 
-.spinner {
-     animation:spin 1s infinite;
-     -webkit-animation:spin 1s infinite;
-     -moz-animation:spin 1s infinite;
-@keyframes spin {
-	from { transform: rotate(0deg); }
-	to { transform: rotate(360deg); }
+@media screen and (max-width: 1575px){
+  .map{
+    width: 60%;
+  }
+  .main_container{
+    width: 39%;
+  }
+  h2{
+    font-size: 36px;
+  }
 }
 
-@-webkit-keyframes spin {
-	from { -webkit-transform: rotate(0deg); }
-	to { -webkit-transform: rotate(360deg); }
-}
-
-@-moz-keyframes spin {
-	from { -moz-transform: rotate(0deg); }
-	to { -moz-transform: rotate(360deg); }
-}	
-
-/* NGANIMATE
-======================= */
-.show-hide-message.ng-hide-remove {
-	-webkit-animation:zoomIn 0.3s both ease;
-    -moz-animation:zoomIn 0.3s both ease;
-    animation:zoomIn 0.3s both ease;
-}

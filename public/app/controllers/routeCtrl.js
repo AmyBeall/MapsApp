@@ -1,6 +1,6 @@
 angular.module('routeCtrl', [])
 
-.controller('routeController', function($scope, $timeout) {
+.controller('routeController', function($scope, $timeout, $sce) {
 
 	$scope.info = {}
 	var ctrl = this;
@@ -33,11 +33,26 @@ angular.module('routeCtrl', [])
 	  	}
 	  	document.getElementById('map-canvas').className="map";
 	 	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+	 	var image = {
+	 		url:"/assets/images/clickTimeImage.png",
+	 		size: new google.maps.Size(69, 86)
+	 	}
+		
+		var clickTimeMarker = new google.maps.Marker({
+	    	position: end,
+	    	map: map,
+	    	icon: image
+	  	});
+
 	  	service = new google.maps.places.PlacesService(map);
 	  	directionsDisplay.setMap(map);
 	  	directionsDisplay.setPanel(document.getElementById("directionsPanel"));
 	}
 	initialize();
+
+	ctrl.renderHtml = function(htmlCode){
+		return $sce.trustAsHtml(htmlCode);
+	}
 
 	function autoStart(){
 		var input = document.getElementById("start");
@@ -98,18 +113,19 @@ angular.module('routeCtrl', [])
 	var Polylines = [];
 	var waypoints = [];
 	var points = [];
+	$scope.places = [];
 	ctrl.wayPts = function(query){
 		if(selectedMode != 'TRANSIT'){
 	     	for (var i = 0; i < calcResponse.routes.length; i++){
 				Polylines.push(calcResponse.routes[i].overview_path);  
-				closest_loc	= Polylines[0][0];
+				closest_loc	= Polylines[0][2];
 	  		}
 	  	 } else if (selectedMode == 'TRANSIT'){
         	for( var i = 0; i < calcResponse.routes[0].legs[0].steps.length; i++){
         		if(calcResponse.routes[0].legs[0].steps[i].travel_mode == "WALKING"){
         			for(var j = 0; j < calcResponse.routes[0].legs[0].steps[i].path.length; j++){
         				Polylines.push(calcResponse.routes[0].legs[0].steps[i].path[j]);
-        				closest_loc	= Polylines[0];
+        				closest_loc	= Polylines[2];
         			}	
         		};
         	}
@@ -128,7 +144,9 @@ angular.module('routeCtrl', [])
 
 			  		if (status == google.maps.places.PlacesServiceStatus.OK) {
 		  				place = results[0];
+		  				console.log(place);
 		  				addMarker(place.geometry.location);
+		  					$scope.places.push(place);
 		  					waypoints.push({location: place.geometry.location, stopover:true});
 			      	}
 	      		}
@@ -144,7 +162,9 @@ angular.module('routeCtrl', [])
 	       	}
        
 	};
-	
+	$scope.order = [];
+	$scope.stops = [];
+	$scope.transitdirections = [];
 	ctrl.wholeRoute = function(){
 		if(selectedMode != 'TRANSIT'){
 	 		$timeout(function(){
@@ -159,10 +179,20 @@ angular.module('routeCtrl', [])
 			     	if (status == google.maps.DirectionsStatus.OK) {
 			      		directionsDisplay.setDirections(response);
 			      		console.log(response);
-			      		// $scope.directions = response;
+			      		$scope.directions = response.routes[0].legs;
+			      		$scope.order = response.routes[0].waypoint_order;
+
+			      		for(var i = 0; i< $scope.order.length; i++){
+							$scope.stops.push($scope.places[$scope.order[i]]);
+						};	
+						for(var i = 0; i < $scope.directions.length; i++){
+							$scope.directions[i].place = $scope.stops[i];
+						}
+						$scope.$apply();
 			 		}
 			 	})
 			},1000); 
+			$scope.info = {};
 		} else {
 			$timeout(function(){
 				points = waypoints.length
@@ -176,7 +206,13 @@ angular.module('routeCtrl', [])
 			   		console.log(status);
 			     	if (status == google.maps.DirectionsStatus.OK) {
 			      		directionsDisplay.setDirections(response);
-			      		// $scope.directions += response;
+
+			      		$scope.directions = response.routes[0].legs;
+			 	
+						for(var i = 0; i < $scope.directions.length; i++){
+							$scope.directions[i].place = $scope.places[i];
+						}
+						$scope.$apply();
 			 		}
 			 	})
 			 	
@@ -189,14 +225,17 @@ angular.module('routeCtrl', [])
 			   		console.log(status);
 			     	if (status == google.maps.DirectionsStatus.OK) {
 			      		 directionsDisplay1.setDirections(response);
+			      		 console.log(response);
 			      		 directionsDisplay1.setMap(map);
   						 directionsDisplay1.setPanel(document.getElementById("directionsPanel"));
-			      		// $scope.directions += response;
+			      		$scope.transitdirections = response.routes[0].legs;
+	
+						$scope.$apply();
 			 		}
 			 	})
 		 	},1000); 
-		}	
-		// console.log($scope.directions);	
-	}
-
+		$scope.info = {};
+		}
+	
+	}	
 });
